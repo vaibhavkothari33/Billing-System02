@@ -1,0 +1,115 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print Bill</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+          
+        #print-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .butt1{
+            background-color: red;
+        }
+        .butt1:hover{
+            background-color: rgb(187, 17, 17);
+            color:white;
+        }
+        #leftr{
+            margin-right:20px ;
+            float: right;
+            margin-top: -36px;
+        }
+        #rightl{
+            margin-right:20px ;
+            float: right;
+            margin-top: -65px;
+        }
+
+        /* styles.css */
+@media print {
+    body {
+        font-size: 12pt;
+        line-height: 1.6;
+    }
+
+    #print-buttons {
+        display: none;
+    }
+
+}
+    </style>
+</head>
+<body>
+    <div id="print-app">
+        <h1>Kashish Enterprises</h1>
+        <p ><strong>Shop Address:</strong> pata nai kha </p>
+        <p id="leftr"><strong>Shop Mobile:</strong> XXXXXXXXXX</p>
+
+        <div id="customer-details">
+            <p><strong> Customer Name:</strong> <span id="customer-name"></span></p>
+            <p><strong>Customer Mobile:</strong> <span id="customer-mobile"></span></p>
+            <p id="rightl"><strong>Date/Time: </strong><span id="current-time"></span></p>
+        </div>
+
+        <h2>Bill Details</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Discount</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="print-bill-table">
+                <!-- Bill items will be added here dynamically -->
+            </tbody>
+        </table>
+        <p>Total Amount: <span id="print-total-amount"></span></p>
+
+        <button onclick="window.print()">Print</button>
+        <button class="butt1" onclick="goBack()">Back to Billing</button>
+    </div>
+    <script >
+
+window.onload = function() {
+    const billItems = JSON.parse(localStorage.getItem('billItems')) || [];
+    const totalAmount = localStorage.getItem('totalAmount') || '0';
+    const customerName = localStorage.getItem('customerName') || '';
+    const customerMobile = localStorage.getItem('customerMobile') || '';
+    const currentTime = localStorage.getItem('currentTime') || '';
+
+    const printBillTable = document.getElementById('print-bill-table');
+    billItems.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${item.name}</td>
+            <td>${item.price.toFixed(2)}</td>
+            <td>${item.quantity}</td>
+            <td>${item.discount}%</td>
+            <td>${item.total.toFixed(2)}</td>
+        `;
+        printBillTable.appendChild(row);
+    });
+
+    document.getElementById('print-total-amount').textContent = totalAmount;
+    document.getElementById('customer-name').textContent = customerName;
+    document.getElementById('customer-mobile').textContent = customerMobile;
+    document.getElementById('current-time').textContent = currentTime;
+}
+
+function goBack() {
+    window.location.href = 'index.html';
+}
+
+    </script>
+</body>
+</html>

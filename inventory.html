@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+    .inv {
+        height: 25px;
+        width: 10%;
+        background-color: red;
+        border: 2px black solid;
+        /* border-radius: 35px; */
+        text-align: center;
+        color: wheat;
+        padding-top: 4px;
+        float: right;
+        
+    }
+    a {
+text-decoration: none;
+}
+</style>
+</head>
+<body>
+    <div id="inventory-app">
+        <h1>Inventory Management</h1>
+        <form id="inventory-form">
+            <label for="inventory-name">Product Name:</label>
+            <input type="text" id="inventory-name" required>
+            <label for="inventory-price">Price:</label>
+            <input type="number" id="inventory-price" required>
+            <label for="inventory-discount">Discount:</label>
+            <input type="number" id="inventory-discount" required>
+            <a href="index.html">
+                <div class="inv">Billing</div>
+            </a>
+            <button type="button" onclick="addInventoryProduct()">Add Product</button>
+        </form>
+        <h2>Existing Products</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Discount</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="inventory-table">
+                <!-- Inventory items will be added here dynamically -->
+            </tbody>
+        </table>
+    </div>
+    <script src="app2.js"></script>
+</body>
+</html>

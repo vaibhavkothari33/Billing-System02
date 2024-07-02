@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Application</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .inv {
+            height: 25px;
+            width: 10%;
+            background-color: red;
+            border: 2px black solid;
+            /* border-radius: 35px; */
+            text-align: center;
+            color: wheat;
+            padding-top: 4px;
+            float: right;
+            
+        }
+        a {
+  text-decoration: none;
+}
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Kashish Enterprises</h1>
+        <!-- <p>Shop Address</p> -->
+        <form id="product-form">
+            <input type="text" id="product-search" placeholder="Search for products..." oninput="searchProducts()">
+            <input type="text" id="customer-name-input" placeholder="Customer Name">
+            <input type="text" id="customer-mobile-input" placeholder="Customer Mobile">
+            <a href="inventory.html">
+                <div class="inv">Inventory</div>
+            </a>
+            <!-- <button> <a href="inventory.html">Inventory</a></button> -->
+            <ul id="suggestions-list"></ul>
+            <div id="product-details">
+                <p>Name: <span id="product-name"></span></p>
+                <p>Price: <span id="product-price"></span></p>
+                <p>Quantity: <input type="number" id="product-quantity" value="1" min="1"></p>
+                <p>Discount: <input type="number" id="product-discount" value="0" min="0"></p>
+            </div>
+            <button type="button" onclick="addProduct()">Add Product</button>
+        </form>
+        <div id="bill-details">
+            <h2>Bill Details</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Discount</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="bill-table">
+                    <!-- Bill items will be added here dynamically -->
+                </tbody>
+            </table>
+            <p>Total Amount: <span id="total-amount">0</span></p>
+        </div>
+        <button onclick="printBill()">Print</button>
+    </div>
+    <script src="app1.js"></script>
+</body>
+
+</html>

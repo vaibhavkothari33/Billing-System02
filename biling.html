@@ -1,0 +1,87 @@
+let products = JSON.parse(localStorage.getItem('products')) || [
+    { name: 'Product 1', price: 5, discount: 0 },
+    { name: 'Product 2', price: 10, discount: 0 },
+    // Initial products
+];
+
+let billDetails = [];
+
+function addProduct() {
+    const name = document.getElementById('product-name').innerText;
+    const price = parseFloat(document.getElementById('product-price').innerText);
+    const quantity = parseInt(document.getElementById('product-quantity').value);
+    const discount = parseFloat(document.getElementById('product-discount').value);
+    
+    const total = (price * quantity) - discount;
+    
+    billDetails.push({ name, price, quantity, discount, total });
+    
+    const table = document.getElementById('bill-table');
+    const row = table.insertRow();
+    row.insertCell(0).innerText = name;
+    row.insertCell(1).innerText = price;
+    row.insertCell(2).innerText = quantity;
+    row.insertCell(3).innerText = discount;
+    row.insertCell(4).innerText = total;
+    
+    updateTotalAmount(total);
+}
+
+function updateTotalAmount(amount) {
+    const totalAmountElement = document.getElementById('total-amount');
+    const currentTotal = parseFloat(totalAmountElement.innerText);
+    totalAmountElement.innerText = (currentTotal + amount).toFixed(2);
+}
+
+function printBill() {
+    localStorage.setItem('billDetails', JSON.stringify(billDetails));
+    window.location.href = 'print.html';
+}
+
+document.getElementById('product-search').addEventListener('input', function() {
+    const query = this.value.toLowerCase();
+    const product = products.find(p => p.name.toLowerCase().includes(query));
+    
+    if (product) {
+        document.getElementById('product-name').innerText = product.name;
+        document.getElementById('product-price').innerText = product.price;
+    } else {
+        document.getElementById('product-name').innerText = '';
+        document.getElementById('product-price').innerText = '';
+    }
+});
+
+// New function to remove a product from the bill
+function removeProduct(index) {
+    const removedProduct = billDetails.splice(index, 1)[0];
+    updateTotalAmount(-removedProduct.total);
+    document.getElementById('bill-table').deleteRow(index);
+}
+
+// Display the bill details in the table
+function displayBill() {
+    const table = document.getElementById('bill-table');
+    table.innerHTML = '';
+    let totalAmount = 0;
+
+    billDetails.forEach((item, index) => {
+        const row = table.insertRow();
+        row.insertCell(0).innerText = item.name;
+        row.insertCell(1).innerText = item.price;
+        row.insertCell(2).innerText = item.quantity;
+        row.insertCell(3).innerText = item.discount;
+        row.insertCell(4).innerText = item.total;
+
+        const removeButton = document.createElement('button');
+        removeButton.innerText = 'Remove';
+        removeButton.onclick = () => removeProduct(index);
+        row.insertCell(5).appendChild(removeButton);
+
+        totalAmount += item.total;
+    });
+
+    document.getElementById('total-amount').innerText = totalAmount.toFixed(2);
+}
+
+// Call displayBill on page load
+window.onload = displayBill;
